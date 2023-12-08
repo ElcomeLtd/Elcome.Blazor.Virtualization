@@ -1,0 +1,24 @@
+{
+  "name": "elcome.blazor.virtualization",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {},
+  "browserslist": [
+    "defaults"
+  ],
+  "devDependencies": {
+    "@microsoft/dotnet-js-interop": "^8.0.0",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@rollup/stream": "^3.0.1",
+    "gulp": "^4.0.2",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "tslib": "^2.6.2",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "overrides": {
+    "glob-parent": "^6.0.2",
+    "postcss": "^8.4.0"
+  }
+}

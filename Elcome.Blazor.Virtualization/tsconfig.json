@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "target": "es2019",
+    "module": "es2020",
+    "lib": [ "es2019", "dom" ],
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
