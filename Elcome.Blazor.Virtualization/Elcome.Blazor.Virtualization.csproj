@@ -9,7 +9,21 @@
 		<Description>Provides functionality for rendering a virtualized list of items with flexible sizes</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/ElcomeLtd/Elcome.Blazor.Virtualization.git</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/ElcomeLtd/Elcome.Blazor.Virtualization</PackageProjectUrl>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="package-lock.json" />
+    <Content Remove="package.json" />
+    <Content Remove="tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="package-lock.json" />
+    <None Include="package.json" />
+    <None Include="tsconfig.json" />
+  </ItemGroup>
 
 
   <ItemGroup>
