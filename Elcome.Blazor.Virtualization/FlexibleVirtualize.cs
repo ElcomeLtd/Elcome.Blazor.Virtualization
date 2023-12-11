@@ -66,6 +66,8 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
 
     private bool _loading;
 
+    private bool _initialLoadComplete;
+
     [Inject]
     private ILogger<FlexibleVirtualize<TItem>> Logger { get; set; } = default!;
 
@@ -126,6 +128,13 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
     /// </summary>
     [Parameter]
     public int OverscanCount { get; set; } = 3;
+
+    /// <summary>
+    /// Gets or sets the number of placeholders that will be rendered before the initial
+    /// load of data completes.
+    /// </summary>
+    [Parameter]
+    public int InitialPlaceholderCount { get; set; } = 0;
 
     /// <summary>
     /// Gets or sets the tag name of the HTML element that will be used as the virtualization spacer.
@@ -234,10 +243,12 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
         builder.AddElementReferenceCapture(2, elementReference => _spacerBefore = elementReference);
         builder.CloseElement();
 
-        var lastItemIndex = Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount);
+        var lastItemIndex = _initialLoadComplete
+            ? Math.Min(_itemsBefore + _visibleItemCapacity, _itemCount)
+            : InitialPlaceholderCount;
+
         var renderIndex = _itemsBefore;
         var placeholdersBeforeCount = Math.Min(_loadedItemsStartIndex, lastItemIndex);
-
 
         _lastRenderedItemCount = 0;
 
@@ -659,6 +670,7 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
                 _loadedItems = result.Items;
                 _loadedItemsStartIndex = request.StartIndex;
                 _loading = false;
+                _initialLoadComplete = true;
 
                 if (renderOnSuccess)
                 {

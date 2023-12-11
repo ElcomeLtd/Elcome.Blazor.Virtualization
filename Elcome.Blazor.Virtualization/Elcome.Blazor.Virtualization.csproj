@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-		<VersionPrefix>0.1.2</VersionPrefix>
+		<VersionPrefix>0.1.3</VersionPrefix>
 		<VersionSuffix>beta</VersionSuffix>
 		<Description>Provides functionality for rendering a virtualized list of items with varying heights</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
