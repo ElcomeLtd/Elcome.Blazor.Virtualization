@@ -26,7 +26,7 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
 
     private int _itemsBefore;
 
-    private int _visibleItemCapacity;
+    private int _visibleItemCapacity = 1;
 
     private int _itemCount = 1;
 
@@ -247,7 +247,7 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
 
             _lastRenderedPlaceholderCount = 0;
         }
-        else if (_loadedItems != null && (_itemTemplate != null || _itemOrPlaceholder != null))
+        else if (_itemTemplate != null || _itemOrPlaceholder != null)
         {
             builder.OpenRegion(4);
 
@@ -264,26 +264,29 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
                 // When scrolling up, the new placeholders may resize - we don't want to be anchored to one of these.
                 // Instead, we'd prefer to be anchored to one of the loaded items below.
 
-                BuildItemOrPlaceholder(builder, renderIndex, _itemOrPlaceholder, new FlexibleVirtualizeItemContext<TItem>(renderIndex, true, default!, _minimumItemSize, _itemSize, true));
+                BuildItemOrPlaceholder(builder, renderIndex, new FlexibleVirtualizeItemContext<TItem>(renderIndex, true, default!, _minimumItemSize, _itemSize, true));
             }
 
-            var itemsToShow = _loadedItems
-                .Skip(_itemsBefore - _loadedItemsStartIndex)
-                .Take(lastItemIndex - _loadedItemsStartIndex);
-
-            // Render the loaded items.
-            foreach (var item in itemsToShow)
+            if (_loadedItems != null)
             {
-                // Set the sequence number equal to the renderIndex.
-                // This means that elements aren't reused for different rows, which would break scroll-anchoring.
+                var itemsToShow = _loadedItems
+                    .Skip(_itemsBefore - _loadedItemsStartIndex)
+                    .Take(lastItemIndex - _loadedItemsStartIndex);
 
-                // Set overflowAnchorNone to false.
-                // If an element above the viewport resizes, we want to be anchored to one of the loaded items.
+                // Render the loaded items.
+                foreach (var item in itemsToShow)
+                {
+                    // Set the sequence number equal to the renderIndex.
+                    // This means that elements aren't reused for different rows, which would break scroll-anchoring.
 
-                BuildItemOrPlaceholder(builder, renderIndex, _itemOrPlaceholder, new FlexibleVirtualizeItemContext<TItem>(renderIndex, false, item, _minimumItemSize, _itemSize, false));
+                    // Set overflowAnchorNone to false.
+                    // If an element above the viewport resizes, we want to be anchored to one of the loaded items.
 
-                _lastRenderedItemCount++;
-                renderIndex++;
+                    BuildItemOrPlaceholder(builder, renderIndex, new FlexibleVirtualizeItemContext<TItem>(renderIndex, false, item, _minimumItemSize, _itemSize, false));
+
+                    _lastRenderedItemCount++;
+                    renderIndex++;
+                }
             }
 
             _lastRenderedPlaceholderCount = Math.Max(0, lastItemIndex - _itemsBefore - _lastRenderedItemCount);
@@ -295,7 +298,7 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
                 // When scrolling down, either there will be loaded items for us to anchor on, or we will
                 // anchor onto one of the first of these placeholders.
 
-                BuildItemOrPlaceholder(builder, renderIndex, _itemOrPlaceholder, new FlexibleVirtualizeItemContext<TItem>(renderIndex, true, default!, _minimumItemSize, _itemSize, false));
+                BuildItemOrPlaceholder(builder, renderIndex, new FlexibleVirtualizeItemContext<TItem>(renderIndex, true, default!, _minimumItemSize, _itemSize, false));
             }
 
             builder.CloseRegion();
@@ -316,12 +319,12 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
     // Optimisation: when falling back to old placeholder/itemTemplates, call AddContent on them directly
     // rather than wrapping them in RenderFragment<VirtualizeItemContext<TItem>> which would cause twice
     // as many RenderFragment delegates to be created.
-    private void BuildItemOrPlaceholder(RenderTreeBuilder builder, int renderIndex, RenderFragment<FlexibleVirtualizeItemContext<TItem>>? itemOrPlaceholder, FlexibleVirtualizeItemContext<TItem> context)
+    private void BuildItemOrPlaceholder(RenderTreeBuilder builder, int renderIndex, FlexibleVirtualizeItemContext<TItem> context)
     {
         builder.OpenRegion(renderIndex);
-        if (itemOrPlaceholder is not null)
+        if (_itemOrPlaceholder is not null)
         {
-            builder.AddContent(0, itemOrPlaceholder, context);
+            builder.AddContent(0, _itemOrPlaceholder, context);
         }
         else
         {
