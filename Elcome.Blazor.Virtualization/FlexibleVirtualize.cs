@@ -28,7 +28,7 @@ public sealed partial class FlexibleVirtualize<TItem> : ComponentBase, IFlexible
 
     private int _visibleItemCapacity;
 
-    private int _itemCount;
+    private int _itemCount = 1;
 
     private int _loadedItemsStartIndex;
 
