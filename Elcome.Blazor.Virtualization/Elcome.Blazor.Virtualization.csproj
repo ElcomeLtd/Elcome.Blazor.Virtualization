@@ -6,12 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
 		<VersionPrefix>0.1</VersionPrefix>
 		<VersionSuffix>beta</VersionSuffix>
-		<Description>Provides functionality for rendering a virtualized list of items with flexible sizes</Description>
+		<Description>Provides functionality for rendering a virtualized list of items with varying heights</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/ElcomeLtd/Elcome.Blazor.Virtualization.git</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/ElcomeLtd/Elcome.Blazor.Virtualization</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>MatElcome</Authors>
+		<Company>Elcome Ltd</Company>
+		<Copyright>© Elcome Ltd</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +27,7 @@
     <None Include="package-lock.json" />
     <None Include="package.json" />
     <None Include="tsconfig.json" />
-		<None Include="..\README.md" Pack="true" PackagePath="\"/>
+		<None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 
